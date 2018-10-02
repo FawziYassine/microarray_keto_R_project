@@ -3,12 +3,12 @@ biocLite()
 biocLite("oligo")
 library(oligo)
 
-#Our experimental data (CEL files) are stored as a data matrix of expression values (each row corresponds to a porticul gene
+#Our experimental data (CEL files) are stored as a data matrix of expression values (each row corresponds to a gene
 #and each column correspoonds to a sample).
 
 #In order to quanitfy the defferential expression of samples (control samples and keto samples)
 #according to diet we fit a linear regression model to each row of the data matrix (each row corresponds to a porticul gene)
-#this allowes us to test the hypotheses that this gene is differentially expressed in a partituarl sample.  
+#this allowes us to test the hypotheses that this gene is differentially expressed in a sample.  
 
 #get the CEL files 
 muscle_celfiles <- list.files("./data/CEL",pattern = "^M", full = TRUE)
@@ -35,13 +35,13 @@ liver_sampleNames <- sampleNames(liver_rawData)
 
 #add group to samples pData
 pData(liver_normData)$group <- ifelse(grepl("Kt*", liver_sampleNames), "Keto", "Control")
-pData(muscle_normData)$group <- ifelse(grepl("Kt*", muscle_sampleNames), "Keto", "Control")
+pData(muscle_nqormData)$group <- ifelse(grepl("Kt*", muscle_sampleNames), "Keto", "Control")
 
 biocLite("limma")
 library(limma)
 #In order to quanitfy the defferential expression of samples (control samples and keto samples)
-#according to diet (group variable) we fit a linear regression model to each row of the data matrix (each row corresponds to a porticul gene)
-#this allowes us to test the hypotheses that this gene is differentially expressed in a partituarl sample.  
+#according to diet (group variable) we fit a linear regression model to each row of the data matrix (each row corresponds to a gene)
+#this allowes us to test the hypotheses that this gene is differentially expressed in a sample.  
 liver_design <- model.matrix(~pData(liver_normData)$group)
 muscle_design <- model.matrix(~pData(muscle_normData)$group)
 lm_fit_muscle <- lmFit(exprs(muscle_normData), muscle_design)
