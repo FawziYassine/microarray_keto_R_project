@@ -7,7 +7,7 @@ library(oligo)
 #and each column correspoonds to a sample).
 
 #In order to quanitfy the defferential expression of samples (control samples and keto samples)
-#according to diet we fit a linear regression model to each row of the data matrix (each row corresponds to a porticul gene)
+#according to diet we fit a linear regression model to each row of the data matrix (each row corresponds to a particular gene)
 #this allowes us to test the hypotheses that this gene is differentially expressed in a sample.  
 
 #get the CEL files 
@@ -31,7 +31,6 @@ liver_normData <- rma(liver_rawData)
 muscle_sampleNames <- sampleNames(muscle_rawData)
 liver_sampleNames <- sampleNames(liver_rawData)
 #liver_sampleNames
-
 
 #add group to samples pData
 pData(liver_normData)$group <- ifelse(grepl("Kt*", liver_sampleNames), "Keto", "Control")
